@@ -10,7 +10,11 @@ if [ -n "${OPENCLAW_AUTH_PROFILES_B64:-}" ]; then
 elif [ -f /data/.openclaw/auth-profiles.json ]; then
   cp /data/.openclaw/auth-profiles.json /data/.openclaw/agents/main/agent/auth-profiles.json
 fi
-
+# Розпакувати openclaw.json з env var
+if [ -n "${OPENCLAW_CONFIG_B64:-}" ]; then
+  echo "auth bootstrap: decoding openclaw.json from env var"
+  echo "$OPENCLAW_CONFIG_B64" | base64 -d > /data/.openclaw/openclaw.json
+fi
 if [ -f /data/.openclaw/openclaw.json ]; then
   echo "auth bootstrap: found openclaw.json"
 fi
